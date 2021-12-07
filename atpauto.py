@@ -42,7 +42,7 @@ for row in ws.iter_rows("C"):
             rate2caci = ws.cell(row=cell.row, column=2).value
             #start adding all saved values from this excel book to the list
             li["Candidate Name"] = full_name
-            li["Company] = company
+            li["Company"] = company
             li["JITR"] = jitr
             li["CSR"] = csr_input
             li["Labor Category"] = labor_category
