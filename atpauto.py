@@ -1,7 +1,4 @@
 import openpyxl
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from openpyxl import Workbook, load_workbook
 
 chrome_browser = webdriver.Chrome('.chromedriver')
 driver.get("https://www.google.com")
