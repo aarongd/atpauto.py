@@ -1,9 +1,5 @@
 import openpyxl
 
-chrome_browser = webdriver.Chrome('.chromedriver')
-driver.get("https://www.google.com")
-assert "Python" in driver.title
-
 #Where information pulled from the Action Tracker, SLA Tracker, and cost org will go.
 li = {
     "Candidate Name" : "",
