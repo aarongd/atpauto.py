@@ -52,7 +52,7 @@ for row in ws.iter_rows(min_row=2, min_col=3, max_col=3):
             li["Effective Date"] = start_date
             li["Submitted Rate to CACI"] = rate2caci
             # Cost center is a constant unless for a few specific JITRs
-            if jitr == (1124 or 1125 or 1126 or 1158 or 1160 or 1166):
+            if jitr in (1124, 1125, 1126, 1158, 1160, 1166):
                 li["Cost Center"] = 3373
             else:
                 li["Cost Center"] = 3393
