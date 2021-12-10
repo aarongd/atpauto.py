@@ -1,43 +1,49 @@
 import openpyxl
+import win32com.client as win32
 
 #Where information pulled from the Action Tracker, SLA Tracker, and cost org will go.
 li = {
-    "JITR" : "",
-    "CSR" : "",
-    "Cost Center" : "",
+    "Candidate Name" : "Luke Skywalker",
+    "Company" : "Star Wars",
+    "JITR" : "111",
+    "CSR" : "2021-98765",
+    "Labor Category" : "Software Developer",
+    "Level" : "SME",
+    "Effective Date" : "11/21/21",
+    "Submitted Rate to CACI" : "121.42",
+    "SLA" : "fda3fasdf",
+    "CLIN" : "0820",
+    "Resource ID" : "234823",
+    "Cost Center" : "3393",
 }
 
-#the two inputs needed to put in manually
-csr_input = input("CSR Number: ")
-#resource_id_input = input("Resource ID: ")
 
-#li["Resource ID"] = resource_id_input
+#to send the email
+outlook = win32.Dispatch('outlook.application')
+mail = outlook.CreateItem(0)
+#mail.To = 'aarongd1995@gmail.com'
+mail.Subject = 'ATP Notification - ' + li['Candidate Name']
+print(mail.Subject)
+mail.Body = 'Kim,\n\n' \
+            'Plase find the ATP Notification below:\n\n'\
+            'Candidate Name: ' + li['Candidate Name']+ '\n'\
+            'Postion #: JITR ' + li['JITR'] + ' / ' + li['CSR']+'\n'\
+            'Labor Category: ' + li['Labor Category'] + '\n'\
+            'Level: ' + li['Level'] + '\n\n'\
+            'Effective Date: ' + li['Effective Date']+'\n'\
+            'Submitted Rate to CACI: $' + li['Submitted Rate to CACI']+'\n'\
+            'SLA: ' + li['SLA']+'\n'\
+            'Resource ID: ' + li['Resource ID']+'\n'\
+            'CLIN: ' + li['CLIN']+'\n'\
+            '---\n' \
+            'CACI Internal/FYI Kimberly\n' \
+            'Resource ID: ' + li['Resource ID']+'\n'\
+            'Cost Center: ' + li['Cost Center']+'\n'\
+            '--------------------------------------------------------------------\n\n' \
+            'Regards,\nAaron Davis | AGDS Lead Staffing Coordinator\nITDAS.PMO@CACI.com\nIntel Applications Services\n1540 Conference Center Drive | Suite 100 | Chantilly, Va 20151\n' \
+            'Office: 703.667.9197 | Cell: 202.329.3537\nAaron.Davis@CACI.com | ww.caci.com'
 
-#opens the Action Tracker workbook
-path = "C:\\Users\\Aaron\\Desktop\\action tracker.xlsx"
-wb = openpyxl.load_workbook(path)
-sheets = wb.sheetnames
-ws = wb.active
-#n=0
-#ws = wb[sheets[n]].active
+print(mail.Body)
+#mail.HTMLBody = '<h2>HTML Message body</h2>' #this field is optional
 
-#to find all rows within the CSR column in the Action tab
-for row in ws.iter_rows(min_row=2, min_col=3, max_col=3):
-    for cell in row:
-        if cell.value == csr_input:
-            #saving all relevant values from this excel book to memory
-            jitr = ws.cell(row=cell.row, column=2).value
-            #start adding all saved values from this excel book to the list
-            li["JITR"] = jitr
-            li["CSR"] = csr_input
-            print(jitr)
-            # Cost center is a constant unless for a few specific JITRs
-            if int(jitr) == (1124 or 1125 or 1126 or 1158 or 1160 or 1166):
-                li["Cost Center"] = 3373
-            else:
-                li["Cost Center"] = 3393
-        else:
-            print("CSR value not found")
-
-print(li)
-
+#mail.Send()
