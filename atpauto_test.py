@@ -21,7 +21,7 @@ li = {
 #to send the email
 outlook = win32.Dispatch('outlook.application')
 mail = outlook.CreateItem(0)
-#mail.To = 'aarongd1995@gmail.com'
+#mail.To = 'email name'
 mail.Subject = 'ATP Notification - ' + li['Candidate Name']
 print(mail.Subject)
 mail.Body = 'Kim,\n\n' \
