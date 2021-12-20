@@ -146,7 +146,7 @@ mail = outlook.CreateItem(0)
 #mail.To = 'email name'
 mail.Subject = 'ATP Notification - ' + li['Candidate Name']
 print(mail.Subject)
-mail.Body = 'Kim,\n\n' \
+mail.Body = 'Name,\n\n' \
             'Plase find the ATP Notification below:\n\n'\
             'Candidate Name: ' + li['Candidate Name']+ '\n'\
             'Postion #: JITR ' + li['JITR'] + ' / ' + li['CSR']+'\n'\
@@ -158,12 +158,11 @@ mail.Body = 'Kim,\n\n' \
             'Resource ID: ' + li['Resource ID']+'\n'\
             'CLIN: ' + li['CLIN']+'\n'\
             '---\n' \
-            'CACI Internal/FYI Kimberly\n' \
+            'CACI Internal/FYI Name\n' \
             'Resource ID: ' + li['Resource ID']+'\n'\
             'Cost Center: ' + li['Cost Center']+'\n'\
             '--------------------------------------------------------------------\n\n' \
-            'Regards,\nAaron Davis | AGDS Lead Staffing Coordinator\nITDAS.PMO@CACI.com\nIntel Applications Services\n1540 Conference Center Drive | Suite 100 | Chantilly, Va 20151\n' \
-            'Office: 703.667.9197 | Cell: 202.329.3537\nAaron.Davis@CACI.com | ww.caci.com'
+            'Signature'
 
 
 mail.Send()
