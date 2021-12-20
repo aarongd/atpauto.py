@@ -1,5 +1,7 @@
 import openpyxl
 import win32com.client as win32
+import tkinter as tk
+from tkinter import *
 
 #Where information pulled from the Action Tracker, SLA Tracker, and cost org will go.
 li = {
@@ -17,11 +19,68 @@ li = {
     "Cost Center" : "",
 }
 
-#the two inputs needed to put in manually
-csr_input = input("CSR Number: ")
-#resource_id_input = input("Resource ID: ")
 
-#li["Resource ID"] = resource_id_input
+def show_entry_fields():
+    print("CSR Number: %s\nResource ID: %s" % (e1.get(), e2.get()))
+    e1.delete(0, tk.END)
+    e2.delete(0, tk.END)
+
+input_values = []
+
+def send_entry_fields():
+        input_values.append(e1.get())
+        input_values.append(e2.get())
+        master.quit()
+
+master = tk.Tk()
+master.title('ATP Notification')
+tk.Label(master, text="CSR Number").grid(row=0)
+tk.Label(master, text="Resource ID").grid(row=1)
+
+e1 = tk.Entry(master)
+e2 = tk.Entry(master)
+
+e1.grid(row=0, column=1)
+e2.grid(row=1, column=1)
+e1.insert(10, "####-#####")
+e1.configure(state=DISABLED)
+e2.insert(10, "#########")
+e2.configure(state=DISABLED)
+
+def on_click(event):
+    e1.configure(state=NORMAL)
+    e2.configure(state=NORMAL)
+    e1.delete(0, END)
+    e2.delete(0, END)
+
+    # make the callback only work once
+    e1.unbind('<Button-1>', on_click_id)
+    e2.unbind('<Button-1>', on_click_id2)
+
+on_click_id = e1.bind('<Button-1>', on_click)
+on_click_id2 = e2.bind('<Button-1>', on_click)
+
+tk.Button(master,
+          text='Quit', command=master.quit).grid(row=3,
+                                    column=0,
+                                    sticky=tk.W,
+                                    pady=4)
+
+
+tk.Button(master, text='Send', command=send_entry_fields).grid(row=3,
+                                                               column=1,
+                                                               sticky=tk.W,
+                                                               pady=4)
+
+master.mainloop()
+tk.mainloop()
+
+#the two inputs needed to put in manually
+#csr_input = input("CSR Number: ")
+csr_input = input_values[0]
+#resource_id_input = input("Resource ID: ")
+resource_id_input = input_values[1]
+li["Resource ID"] = resource_id_input
 
 #opens the Action Tracker workbook
 path = "C:\\Users\\Aaron\\Desktop\\action tracker.xlsx"
@@ -42,6 +101,7 @@ for row in ws.iter_rows(min_row=2, min_col=3, max_col=3):
             labor_category = ws.cell(row=cell.row, column=7).value
             level = ws.cell(row=cell.row, column=8).value
             start_date = ws.cell(row=cell.row, column=18).value
+            start_date2 = start_date.strftime("%d/%m/%Y")
             rate2caci = ws.cell(row=cell.row, column=10).value
             #start adding all saved values from this excel book to the list
             li["Candidate Name"] = full_name
@@ -50,7 +110,7 @@ for row in ws.iter_rows(min_row=2, min_col=3, max_col=3):
             li["CSR"] = csr_input
             li["Labor Category"] = labor_category
             li["Level"] = level
-            li["Effective Date"] = start_date
+            li["Effective Date"] = start_date2
             li["Submitted Rate to CACI"] = rate2caci
             # Cost center is a constant unless for a few specific JITRs
             if jitr in (1124, 1125, 1126, 1158, 1160, 1166):
@@ -104,3 +164,6 @@ mail.Body = 'Kim,\n\n' \
             '--------------------------------------------------------------------\n\n' \
             'Regards,\nAaron Davis | AGDS Lead Staffing Coordinator\nITDAS.PMO@CACI.com\nIntel Applications Services\n1540 Conference Center Drive | Suite 100 | Chantilly, Va 20151\n' \
             'Office: 703.667.9197 | Cell: 202.329.3537\nAaron.Davis@CACI.com | ww.caci.com'
+
+
+mail.Send()
